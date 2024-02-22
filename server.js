@@ -1,28 +1,27 @@
-const path = require('path');
 const express = require('express');
-const app = express(); // create express app
+const path = require('path');
 
-// add middlewares
-app.use(
-  express.static(path.join(__dirname), {
-    setHeaders: (res, path) => {
-      //if the file is an html file, do not cache it
-      if (path && path.includes('.html')) {
-        res.set('Cache-Control', 'no-cache,no-store,');
-      } else {
-        res.set('Cache-Control', 'max-age=31536000');
-      }
-    },
-  }),
-);
+const app = express();
+const port = process.env.port || 3013; // Use the provided PORT or a default one
+const context = process.env.context || '/';
 
-app.use((req, res, next) => {
-  res.setHeader('Cache-Control', 'no-cache,no-store,');
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
+// Serve static files from the build folder under the '/test' base path
+if(context === '/'){
+  app.use( '/', express.static(path.join(__dirname, 'dist')));
 
-// start express server on port 8080
-app.listen(process.env.PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log('server started on port '+ process.env.PORT);
+  // Handle all other requests
+  app.get( '/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });
+}else{
+  app.use(context + '/', express.static(path.join(__dirname, 'dist')));
+
+  // Handle all other requests
+  app.get(context + '/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });
+}
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });

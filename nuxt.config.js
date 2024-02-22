@@ -1,23 +1,23 @@
+const context_path = process.env.context_env || '/';
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
   router:{
-    base: process.env.context_env,
-    baseURL: process.env.context_env
+    base: context_path,
   },
-
+  
   static:{
     prefix: false
   },
 
   app: {
-    baseURL: process.env.context_env
+    baseURL: context_path,
   },
   
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'nuxt2.x-browser-template-1.0',
+    title: 'nuxt3.x-browser-template-1.0',
     htmlAttrs: {
       lang: 'en',
     },
@@ -53,5 +53,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  generate: {
+    routes: ['/','/dashbaord', '/listing'],
   },
 }
