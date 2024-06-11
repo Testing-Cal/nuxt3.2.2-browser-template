@@ -5,4 +5,5 @@
     <NuxtLink to="/listing">Listing</NuxtLink>
   </div>
   <h1>Welcome to the Home Page!</h1>
+  <title>Nuxt-3.2.2</title>
 </template>
