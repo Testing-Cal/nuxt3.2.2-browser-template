@@ -1,6 +1,6 @@
 
 # stage1 as builder
-FROM node:20.11.1 as builder
+FROM node:20.11.1-slim as builder
 
 # copy the package.json to install dependencies
 COPY package.json ./
@@ -19,7 +19,7 @@ RUN sed -i "s|"/\basepath"|"${CONTEXT}"|g" .env
 RUN context_env=${CONTEXT} npm run build
 RUN context_env=${CONTEXT} npm run generate
 
-FROM node:20.11.1
+FROM node:20.11.1-slim
 ARG CONTEXT='/'
 
 #!/bin/sh
